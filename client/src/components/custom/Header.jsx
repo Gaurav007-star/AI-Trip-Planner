@@ -1,10 +1,15 @@
+import { HeaderWrapper } from "@/css-sheets/css-styles";
+import { Button } from "../ui/button";
 
 function Header() {
   return (
-    <div>
-      <img src="/logo.svg" alt="logo icon" />
-    </div>
-  )
+    <HeaderWrapper>
+      <img src="/logo.svg" alt="logoicon" />
+      <Button>
+        Login
+      </Button>
+    </HeaderWrapper>
+  );
 }
 
-export default Header
+export default Header;
