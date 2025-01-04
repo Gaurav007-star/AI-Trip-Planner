@@ -13,12 +13,12 @@ import { FcGoogle } from "react-icons/fc";
 import { UserRegister } from "@/store/slices/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AIchatSession from "@/aiHandler/Aimodal";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 function CreateTrip() {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
   const dispatch = useDispatch();
-  const user = useSelector(state=>state.user.user)
 
   const InputHandeler = (name, value) => {
     setFormData({
@@ -27,11 +27,15 @@ function CreateTrip() {
     });
   };
 
-  const GenerateTrip = async() => {
+  const GenerateTrip = async () => {
+    const user = localStorage.getItem("user");
+
     console.log("USER", user);
+    console.log("FORM DATA", formData);
 
     if (!user) {
       setOpenDialog(true);
+      return;
     } else {
       if (
         !formData?.place ||
@@ -62,7 +66,11 @@ function CreateTrip() {
 
   const login = useGoogleLogin({
     onSuccess: (response) => {
-      dispatch(UserRegister(response))
+      dispatch(UserRegister(response)).then(() => {
+        console.log("call");
+        setOpenDialog(false);
+        GenerateTrip();
+      });
     },
     onError: (error) => console.log(error)
   });
@@ -78,7 +86,6 @@ function CreateTrip() {
         Just provide some basic information, and our trip planner will generate
         a customized itinerary based on your preferences.
       </span>
-
       {/* Choices input sections */}
       <div className="choices">
         <div className="destination">
@@ -120,7 +127,6 @@ function CreateTrip() {
           )}
         </div>
       </div>
-
       {/* Budget section */}
       <div className="detail-section">
         <h2>What is Your Budget?</h2>
@@ -143,7 +149,6 @@ function CreateTrip() {
           })}
         </div>
       </div>
-
       {/* plan section */}
       <div className="detail-section">
         <h2>Who do you plan on traveling with on your next adventure?</h2>
@@ -166,41 +171,37 @@ function CreateTrip() {
           })}
         </div>
       </div>
-
       <div className="submit-trip mt-10 w-full h-auto flex justify-end text-[16px]">
         <Button onClick={() => GenerateTrip()}>Generate Trip 🚀</Button>
       </div>
-
       {/* Dialogue section */}
-      {!user && (
-        <Dialog open={openDialog}>
-          <DialogTitle />
-          <DialogContent className="w-max p-10">
-            <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
-              <RxCross2
-                fontSize={"25px"}
-                style={{ marginRight: "10px" }}
-                onClick={() => setOpenDialog(false)}
-              />
-            </div>
-            <div className="text-center h-auto w-auto mb-6 flex items-center justify-center flex-col">
-              <FcGoogle style={{ fontSize: "8vh" }} />
-              <h2 className="text-2xl font-bold mt-4 text-black">
-                Welcome back
-              </h2>
-              <p className="text-gray-400 text-sm">
-                Don’t have an account?{" "}
-                <a href="#" className="text-blue-500 hover:underline">
-                  Sign up.
-                </a>
-              </p>
-            </div>
-            <div className="w-full flex justify-center items-center">
-              <Button onClick={() => login()}>Sign in with Google</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={openDialog}>
+        <DialogTitle />
+        <DialogDescription/>
+        <DialogContent className="w-max p-10">
+          <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
+            <RxCross2
+              fontSize={"25px"}
+              style={{ marginRight: "10px" }}
+              onClick={() => setOpenDialog(false)}
+            />
+          </div>
+          <div className="text-center h-auto w-auto mb-6 flex items-center justify-center flex-col">
+            <FcGoogle style={{ fontSize: "8vh" }} />
+            <h2 className="text-2xl font-bold mt-4 text-black">Welcome back</h2>
+            <p className="text-gray-400 text-sm">
+              Don’t have an account?{" "}
+              <a href="#" className="text-blue-500 hover:underline">
+                Sign up.
+              </a>
+            </p>
+          </div>
+          <div className="w-full flex justify-center items-center">
+            <Button onClick={() => login()}>Sign in with Google</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      
     </CreateTripWrapper>
   );
 }
