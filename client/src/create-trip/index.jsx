@@ -7,16 +7,19 @@ import { toast } from "react-toastify";
 import { useGoogleLogin } from "@react-oauth/google";
 import { RxCross2 } from "react-icons/rx";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
+
+import { UserRegister } from "@/store/slices/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
+import AIchatSession from "@/aiHandler/Aimodal";
 
 function CreateTrip() {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector(state=>state.user.user)
+
   const InputHandeler = (name, value) => {
     setFormData({
       ...formData,
@@ -24,33 +27,43 @@ function CreateTrip() {
     });
   };
 
-  const GenerateTrip = () => {
-    if (
-      !formData?.place ||
-      !formData?.people ||
-      !formData?.days ||
-      !formData?.budget
-    ) {
-      return toast.error("Please fill the details", { className: "h-[12vh]" });
+  const GenerateTrip = async() => {
+    console.log("USER", user);
+
+    if (!user) {
+      setOpenDialog(true);
+    } else {
+      if (
+        !formData?.place ||
+        !formData?.people ||
+        !formData?.days ||
+        !formData?.budget
+      ) {
+        return toast.error("Please fill the details", {
+          className: "h-[12vh]"
+        });
+      }
+
+      let aiPrompt = AIPrompt.replace("{location}", formData?.place?.label)
+        .replace("{days}", formData?.days)
+        .replace("{people}", formData?.people)
+        .replace("{budget}", formData?.budget);
+
+      console.log("SCRIPT", aiPrompt);
+
+      try {
+        const ai_response = await AIchatSession.sendMessage(aiPrompt);
+        console.log(ai_response?.response?.text());
+      } catch (error) {
+        console.log("ERROR", error.message);
+      }
     }
-
-    let aiPrompt = AIPrompt.replace("{location}", formData?.place?.label)
-      .replace("{days}", formData?.days)
-      .replace("{people}", formData?.people)
-      .replace("{budget}", formData?.budget);
-    setOpenDialog(true);
-    console.log("SCRIPT", aiPrompt);
-
-    // try {
-    //   const ai_response = await AIchatSession.sendMessage(aiPrompt);
-    //   console.log(ai_response?.response?.text());
-    // } catch (error) {
-    //   console.log("ERROR", error.message);
-    // }
   };
 
   const login = useGoogleLogin({
-    onSuccess: (response) => console.log(response),
+    onSuccess: (response) => {
+      dispatch(UserRegister(response))
+    },
     onError: (error) => console.log(error)
   });
 
@@ -159,27 +172,35 @@ function CreateTrip() {
       </div>
 
       {/* Dialogue section */}
-      <Dialog open={openDialog}>
-        <DialogTitle/>
-        <DialogContent className="w-max p-10">
-          <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
-            <RxCross2 fontSize={"25px"} style={{marginRight:"10px"}} onClick={()=>setOpenDialog(false)}/>
-          </div>
-          <div className="text-center h-auto w-auto mb-6 flex items-center justify-center flex-col">
-            <FcGoogle style={{ fontSize: "8vh" }} />
-            <h2 className="text-2xl font-bold mt-4 text-black">Welcome back</h2>
-            <p className="text-gray-400 text-sm">
-              Don’t have an account?{" "}
-              <a href="#" className="text-blue-500 hover:underline">
-                Sign up.
-              </a>
-            </p>
-          </div>
-          <div className="w-full flex justify-center items-center">
-            <Button onClick={()=>login()}>Sign in with Google</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {!user && (
+        <Dialog open={openDialog}>
+          <DialogTitle />
+          <DialogContent className="w-max p-10">
+            <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
+              <RxCross2
+                fontSize={"25px"}
+                style={{ marginRight: "10px" }}
+                onClick={() => setOpenDialog(false)}
+              />
+            </div>
+            <div className="text-center h-auto w-auto mb-6 flex items-center justify-center flex-col">
+              <FcGoogle style={{ fontSize: "8vh" }} />
+              <h2 className="text-2xl font-bold mt-4 text-black">
+                Welcome back
+              </h2>
+              <p className="text-gray-400 text-sm">
+                Don’t have an account?{" "}
+                <a href="#" className="text-blue-500 hover:underline">
+                  Sign up.
+                </a>
+              </p>
+            </div>
+            <div className="w-full flex justify-center items-center">
+              <Button onClick={() => login()}>Sign in with Google</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </CreateTripWrapper>
   );
 }

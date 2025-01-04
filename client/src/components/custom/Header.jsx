@@ -4,6 +4,7 @@ import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,7 @@ function Header() {
       {isOpen && (
         <Dialog open={isOpen}>
           <DialogTitle />
+          <DialogDescription/>
           <DialogContent className="w-max p-10">
             <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
               <RxCross2
