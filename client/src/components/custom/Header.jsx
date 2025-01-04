@@ -1,13 +1,48 @@
 import { HeaderWrapper } from "@/css-sheets/css-styles";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { RxCross2 } from "react-icons/rx";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { FcGoogle } from "react-icons/fc";
 
 function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <HeaderWrapper>
       <img src="/logo.svg" alt="logoicon" />
-      <Button>
-        Login
-      </Button>
+
+      {isOpen ? <></> : <Button onClick={() => setIsOpen(true)}>Login</Button>}
+
+      {isOpen && (
+        <Dialog open={isOpen}>
+          <DialogTitle />
+          <DialogContent className="w-max p-10">
+            <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
+              <RxCross2
+                fontSize={"25px"}
+                style={{ marginRight: "10px" }}
+                onClick={() => setIsOpen(false)}
+              />
+            </div>
+            <div className="text-center h-auto w-auto mb-6 flex items-center justify-center flex-col">
+              <FcGoogle style={{ fontSize: "8vh" }} />
+              <h2 className="text-2xl font-bold mt-4 text-black">
+                Welcome back
+              </h2>
+              <p className="text-gray-400 text-sm">
+                Don’t have an account?{" "}
+                <a href="#" className="text-blue-500 hover:underline">
+                  Sign up.
+                </a>
+              </p>
+            </div>
+            <div className="w-full flex justify-center items-center">
+              <Button>Sign in with Google</Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </HeaderWrapper>
   );
 }
