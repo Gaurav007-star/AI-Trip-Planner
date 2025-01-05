@@ -5,20 +5,31 @@ import { RxCross2 } from "react-icons/rx";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const user = useSelector((state) => state.user.user);
+  
   return (
     <HeaderWrapper>
       <img src="/logo.svg" alt="logoicon" />
 
-      {isOpen ? <></> : <Button onClick={() => setIsOpen(true)}>Login</Button>}
+      {user ? (
+        <div className="avatar">
+          <div className="ring-primary ring-offset-base-100 w-[50px] h-[50px] rounded-full ring-slate-800 ring-2 cursor-pointer">
+            <img src={`${user.picture}`} />
+          </div>
+        </div>
+      ) : (
+        <Button onClick={() => setIsOpen(true)}>Login</Button>
+      )}
 
       {isOpen && (
         <Dialog open={isOpen}>
           <DialogTitle />
-          <DialogDescription/>
+          <DialogDescription />
           <DialogContent className="w-max p-10">
             <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
               <RxCross2

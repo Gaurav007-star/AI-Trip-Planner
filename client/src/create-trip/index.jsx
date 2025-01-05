@@ -9,15 +9,16 @@ import { RxCross2 } from "react-icons/rx";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
-
+import { TripCreateThunk } from "@/store/slices/TripSlice";
 import { UserRegister } from "@/store/slices/UserSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import AIchatSession from "@/aiHandler/Aimodal";
 import { DialogDescription } from "@radix-ui/react-dialog";
 
 function CreateTrip() {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const InputHandeler = (name, value) => {
@@ -28,10 +29,8 @@ function CreateTrip() {
   };
 
   const GenerateTrip = async () => {
-    const user = localStorage.getItem("user");
-
-    console.log("USER", user);
-    console.log("FORM DATA", formData);
+    // get user value from localstorage
+    const user = JSON.parse(localStorage.getItem("user"));
 
     if (!user) {
       setOpenDialog(true);
@@ -53,13 +52,21 @@ function CreateTrip() {
         .replace("{people}", formData?.people)
         .replace("{budget}", formData?.budget);
 
-      console.log("SCRIPT", aiPrompt);
-
-      try {
+        try {
+        setLoading(true);
         const ai_response = await AIchatSession.sendMessage(aiPrompt);
-        console.log(ai_response?.response?.text());
+        const trip = ai_response?.response?.text();
+        const data = {
+          trip,
+          email: user.email,
+          choice: { ...formData, place: formData.place.label }
+        };
+        dispatch(TripCreateThunk(data));
+        setLoading(false);
       } catch (error) {
-        console.log("ERROR", error.message);
+        setLoading(false)
+        toast.error(error.message)
+        // console.log("ERROR", error.message);
       }
     }
   };
@@ -67,7 +74,6 @@ function CreateTrip() {
   const login = useGoogleLogin({
     onSuccess: (response) => {
       dispatch(UserRegister(response)).then(() => {
-        console.log("call");
         setOpenDialog(false);
         GenerateTrip();
       });
@@ -76,7 +82,7 @@ function CreateTrip() {
   });
 
   useEffect(() => {
-    console.log(formData);
+    // console.log(formData);
   }, [formData]);
 
   return (
@@ -172,12 +178,19 @@ function CreateTrip() {
         </div>
       </div>
       <div className="submit-trip mt-10 w-full h-auto flex justify-end text-[16px]">
-        <Button onClick={() => GenerateTrip()}>Generate Trip 🚀</Button>
+        {loading ? (
+          <div className="disabled w-auto h-auto p-3 flex items-center justify-center bg-black rounded-md">
+            <h1 className="loading loading-spinner loading-md bg-orange-500" />
+            <h2 className="pl-2 text-white">Loading 😗</h2>
+          </div>
+        ) : (
+          <Button onClick={() => GenerateTrip()}>Generate Trip 🚀</Button>
+        )}
       </div>
       {/* Dialogue section */}
       <Dialog open={openDialog}>
         <DialogTitle />
-        <DialogDescription/>
+        <DialogDescription />
         <DialogContent className="w-max p-10">
           <div className="croxx bg-white w-full h-[40px] absolute rounded-md z-10 flex justify-end items-center cursor-pointer">
             <RxCross2
@@ -201,7 +214,6 @@ function CreateTrip() {
           </div>
         </DialogContent>
       </Dialog>
-      
     </CreateTripWrapper>
   );
 }
