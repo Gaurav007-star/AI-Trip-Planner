@@ -61,90 +61,152 @@ export const HeroWrapper = styled.div`
 `;
 
 export const CreateTripWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 2vh 15vw;
+  margin-top: 5vh;
+
+  h1 {
+    font-size: 7vh;
+  }
+
+  span {
+    color: #c4c4c4;
+    margin-top: 2vh;
+  }
+
+  .choices {
     width: 100%;
     height: auto;
-    padding: 2vh 15vw;
-    margin-top: 5vh;
+    margin-top: 15vh;
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    margin-bottom: 10vh;
+  }
 
-    h1{
-        font-size: 7vh;
+  .choices .destination {
+    width: 100%;
+    height: auto;
+  }
+
+  .choices .destination h2 {
+    font-size: 2.5vh;
+    margin-bottom: 10px;
+  }
+
+  .detail-section {
+    width: 100%;
+    height: auto;
+  }
+
+  .detail-section h2 {
+    font-size: 2.5vh;
+    margin-bottom: 5px;
+  }
+
+  .detail-section .detail-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    width: 100%;
+    justify-content: space-between;
+    padding: 3vh 0;
+    margin-bottom: 5vh;
+  }
+
+  .detail-section .detail-box .box {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    font-size: 100%;
+    width: 18vw;
+    height: 23vh;
+    box-shadow: 0 0 5px #ddd;
+    transition: transform 330ms ease-in-out;
+    cursor: pointer;
+  }
+
+  .detail-section .detail-box .box:hover {
+    box-shadow: 4px 4px 1px #dbdbdb;
+    transform: scale(1.05);
+    border: 2px solid #dbdbdb;
+  }
+
+  @media (max-width: 800px) {
+    * {
+      transition: all 0.2s linear;
     }
-
-    span{
-        color: #c4c4c4;
-        margin-top: 2vh;
+    .detail-section .detail-box .box {
+      flex: 1 1 auto;
+      font-size: 14px;
     }
+  }
+`;
 
-    .choices{
-        width: 100%;
-        height: auto;
-        margin-top: 15vh;
-        display: flex;
-        flex-direction: column;
-        gap: 5vh;
-        margin-bottom: 10vh;
-    }
+export const TripWrapper = styled.div`
+  width: 100%;
+  height: 70vh;
+  background-color: rebeccapurple;
+`;
 
-    .choices .destination{
-        width: 100%;
-        height: auto;
-    }
+export const UserWrapper = styled.div`
+  width: 100%;
+  height: 85vh;
+  /* background-color: beige; */
+  display: flex;
+  .left {
+    width: 25%;
+    height: 100%;
+    /* background-color: aquamarine; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .choices .destination h2{
-        font-size: 2.5vh;
-        margin-bottom: 10px;
-    }
+  .left .user-picture {
+    width: 80%;
+    height: 45vh;
+    border-radius: 20px;
+    border: 2px solid black;
+    box-shadow: -5px 4px 0 black;
+  }
 
-    .detail-section{
-        width: 100%;
-        height: auto;
-    }
+  .left h1 {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .detail-section h2{
-        font-size: 2.5vh;
-        margin-bottom: 5px;
-    }
+  .right {
+    width: 75%;
+    height: 100%;
+    /* background-color: goldenrod; */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5vw;
+    overflow-y: scroll;
+    padding: 10px 0;
+  }
 
-    .detail-section .detail-box{
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        width: 100%;
-        justify-content: space-between;
-        padding: 3vh 0;
-        margin-bottom: 5vh;
-    }
+  .right .trip-box {
+    width: 17vw;
+    height: 40vh;
+    background-color: bisque;
+    border-radius: 20px;
+    text-align: center;
+    /* border: 2px solid black; */
+    box-shadow: 0 0 10px #a8a8a8;
+  }
 
-    .detail-section .detail-box .box{
-        border: 1px solid #ddd;
-        border-radius:8px;
-        padding: 20px;
-        text-align: center;
-        font-size: 100%;
-        width: 18vw;
-        height: 23vh;
-        box-shadow: 0 0 5px #ddd;
-        transition: transform 330ms ease-in-out;
-        cursor: pointer;
-    }
-
-    .detail-section .detail-box .box:hover{
-        box-shadow: 4px 4px 1px #dbdbdb;
-        transform: scale(1.05);
-        border: 2px solid #dbdbdb;
-    }
-    
-
-    @media (max-width:800px) {
-        *{
-            transition: all 0.2s linear;
-        }
-        .detail-section .detail-box .box{
-            flex: 1 1 auto;
-            font-size: 14px;
-        }
-    }
-
-
-`
-
+  .right .trip-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+  }
+`;

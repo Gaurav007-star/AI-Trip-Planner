@@ -52,20 +52,21 @@ function CreateTrip() {
         .replace("{people}", formData?.people)
         .replace("{budget}", formData?.budget);
 
-        try {
+      try {
         setLoading(true);
         const ai_response = await AIchatSession.sendMessage(aiPrompt);
         const trip = ai_response?.response?.text();
         const data = {
-          trip,
+          trip: JSON.parse(trip),
           email: user.email,
+          userId:user.id,
           choice: { ...formData, place: formData.place.label }
         };
         dispatch(TripCreateThunk(data));
         setLoading(false);
       } catch (error) {
-        setLoading(false)
-        toast.error(error.message)
+        setLoading(false);
+        toast.error(error.message);
         // console.log("ERROR", error.message);
       }
     }

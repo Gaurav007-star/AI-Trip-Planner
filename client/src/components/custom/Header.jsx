@@ -6,19 +6,38 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useSelector } from "react-redux";
+import { setUser } from "@/store/slices/UserSlice";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { setEmptyTrip } from "@/store/slices/TripSlice";
+
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  
+  const handelNavigate = () =>{
+    navigate("/user")
+  }
+
+  const LogoutHandler = () =>{
+    localStorage.clear()
+    dispatch(setEmptyTrip())
+    dispatch(setUser())
+    toast.success("Logout success")
+  }
   
   return (
     <HeaderWrapper>
       <img src="/logo.svg" alt="logoicon" />
 
       {user ? (
-        <div className="avatar">
-          <div className="ring-primary ring-offset-base-100 w-[50px] h-[50px] rounded-full ring-slate-800 ring-2 cursor-pointer">
+        <div className="avatar flex items-center">
+          <Button onClick={()=>LogoutHandler()}>Logout</Button>
+          <div onClick={handelNavigate} className="ring-primary ring-offset-base-100 w-[50px] h-[50px] rounded-full ring-slate-800 ring-2 cursor-pointer ml-2">
             <img src={`${user.picture}`} />
           </div>
         </div>

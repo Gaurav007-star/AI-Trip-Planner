@@ -31,8 +31,9 @@ export const createTrip = async (req, res) => {
   }
 };
 
-export const fetchTrip = async (req, res) => {
-  const { email } = req.body;
+export const fetchAllTrip = async (req, res) => {
+  // console.log("params ",req.params.id);
+  const email = req.params.email;
 
   if (!email) {
     return res.status(400).json({
@@ -56,6 +57,33 @@ export const fetchTrip = async (req, res) => {
       success: true,
       tripDetails
     });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
+export const singleTrip = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const trip_details = await TripModal.findOne({
+      _id: id
+    });
+
+    if (!trip_details) {
+      return res.status(400).json({
+        success: false,
+        message: "Trip not found"
+      });
+    }
+
+    return res.status(200).json({
+      success:true,
+      trip:trip_details
+    })
+
   } catch (error) {
     return res.status(400).json({
       success: false,

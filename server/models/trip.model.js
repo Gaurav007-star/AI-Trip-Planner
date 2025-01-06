@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const tripSchema = new mongoose.Schema(
   {
     trip: {
-      type: String,
+      type: Object,
       require: true
     },
     choice: {
