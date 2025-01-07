@@ -27,7 +27,8 @@ const hotels = [
   }
 ];
 
-const HotelRecommendations = () => {
+const HotelRecommendations = ({trip}) => {
+  
   return (
     <HotelWrapper>
       <h1>Hotel Recommendation</h1>

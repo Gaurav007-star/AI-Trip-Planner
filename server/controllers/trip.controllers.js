@@ -1,4 +1,5 @@
 import TripModal from "../models/trip.model.js";
+import mongoose from "mongoose";
 
 export const createTrip = async (req, res) => {
   // trip,choice,email
@@ -21,7 +22,7 @@ export const createTrip = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Trip create successfully 🫡"
+      trip: createTrip
     });
   } catch (error) {
     return res.status(400).json({
@@ -66,7 +67,9 @@ export const fetchAllTrip = async (req, res) => {
 };
 
 export const singleTrip = async (req, res) => {
-  const id = req.params.id;
+  let id = req.params.id;
+  console.log("ID : ",id);
+  
   try {
     const trip_details = await TripModal.findOne({
       _id: id
@@ -80,14 +83,13 @@ export const singleTrip = async (req, res) => {
     }
 
     return res.status(200).json({
-      success:true,
-      trip:trip_details
-    })
-
+      success: true,
+      trip: trip_details
+    });
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message: error.message
+      message: "Trip is not found 😗"
     });
   }
 };

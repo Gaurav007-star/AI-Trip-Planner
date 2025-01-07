@@ -11,16 +11,24 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { FcGoogle } from "react-icons/fc";
 import { TripCreateThunk } from "@/store/slices/TripSlice";
 import { UserRegister } from "@/store/slices/UserSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AIchatSession from "@/aiHandler/Aimodal";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useNavigate } from "react-router-dom";
+
 
 function CreateTrip() {
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate()
+  const trip = useSelector(state=>state.trip.trip)
+  
+  if(Object.keys(trip).length > 0){
+    navigate(`/trip/${trip?._id}`)
+  }
+  
   const InputHandeler = (name, value) => {
     setFormData({
       ...formData,
@@ -67,7 +75,7 @@ function CreateTrip() {
       } catch (error) {
         setLoading(false);
         toast.error(error.message);
-        // console.log("ERROR", error.message);
+       
       }
     }
   };
@@ -81,10 +89,6 @@ function CreateTrip() {
     },
     onError: (error) => console.log(error)
   });
-
-  useEffect(() => {
-    // console.log(formData);
-  }, [formData]);
 
   return (
     <CreateTripWrapper>

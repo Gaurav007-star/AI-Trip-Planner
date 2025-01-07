@@ -18,7 +18,7 @@ function App() {
         <Route path="/" element={<Hero />} />
         <Route path="/create-trip" element={<CreateTrip />} />
         <Route path="/user" element={<Userpage />} />
-        <Route path="/trip" element={<Trip />} />
+        <Route path="/trip/:id" element={<Trip />} />
       </Routes>
     </BrowserRouter>
   );

@@ -8,6 +8,7 @@ export const TripCreateThunk = createAsyncThunk("create/trip", async (data) => {
       "http://localhost:8000/trip/create",
       data
     );
+    console.log("Create trip data", response.data);
     return response.data;
   } catch (error) {
     toast.error(error.response.data.message || "error find 😶");
@@ -16,46 +17,70 @@ export const TripCreateThunk = createAsyncThunk("create/trip", async (data) => {
 });
 
 export const FetchTripThunk = createAsyncThunk("fetch/trip", async (email) => {
-  
   try {
     const response = await axios.get(
-      `http://localhost:8000/trip/fetch-trip/${email}`,
+      `http://localhost:8000/trip/fetch-trip/${email}`
     );
     return response.data;
   } catch (error) {
-    console.log("ERROR",error.response);
-    
+    console.log("ERROR", error.response);
+
+    toast.error(error.response.data.message || "error find 😶");
+    return null;
+  }
+});
+
+export const GetTripById = createAsyncThunk("fetch-single/trip", async (id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/trip/fetch-one-trip/${id}`
+    );
+    console.log("TRIP DATA", response.data);
+
+    return response.data;
+  } catch (error) {
+    console.log("ERROR", error);
+
     toast.error(error.response.data.message || "error find 😶");
     return null;
   }
 });
 
 const initialState = {
-  trip: {}
+  trip: {},
+  allTrip: {}
 };
 
 const TripSlice = createSlice({
   name: "trip",
   initialState,
-  reducers:{
-    setEmptyTrip(state){
-      state.trip = {}
-    }
+  reducers: {
+    setEmptyTrip(state) {
+      state.trip = {};
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(TripCreateThunk.fulfilled, (state, action) => {
         if (action.payload) {
-          state.trip = action.payload;
+          // console.log("Trip create details", action.payload.trip);
+          state.trip = action.payload.trip;
         }
       })
       .addCase(FetchTripThunk.fulfilled, (state, action) => {
         if (action.payload) {
-          state.trip = action.payload.tripDetails;
+          state.allTrip = action.payload.tripDetails;
         }
+      })
+      .addCase(GetTripById.fulfilled, (state, action) => {
+        if (action.payload) {
+          // console.log("Single trip : ", action.payload);
+          state.trip = action.payload.trip;
+        }
+        // state.trip = action.payload.trip;
       });
   }
 });
 
-export const {setEmptyTrip} = TripSlice.actions
+export const { setEmptyTrip, goToTrip } = TripSlice.actions;
 export default TripSlice.reducer;
