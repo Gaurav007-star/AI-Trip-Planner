@@ -294,7 +294,7 @@ export const ShareWrapper = styled.div`
 
 export const HotelWrapper = styled.div`
   width: 100%;
-  margin-top: 10px;
+  margin-top: 5vh;
 
   h1 {
     font-size: 24px;
@@ -307,18 +307,20 @@ export const HotelWrapper = styled.div`
     flex-wrap: wrap;
     width: 100%;
     height: auto;
+    justify-content: start;
   }
 
   .hotel-card {
     background-color: #f9f9f9;
     border-radius: 10px;
-    padding: 15px;
+    /* padding: 15px; */
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 15vw;
-    height: auto;
-    flex: 1 1 10vw;
+    width: 20vw;
+    height: 52vh;
+    flex: 1 1 auto;
     transition: all 0.2s ease-in-out;
+    padding: 10px;
   }
 
   .hotel-card:hover {
@@ -334,7 +336,7 @@ export const HotelWrapper = styled.div`
   }
 
   .hotel-name {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     margin-bottom: 10px;
 
@@ -348,7 +350,7 @@ export const HotelWrapper = styled.div`
   }
 
   .hotel-price {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
@@ -359,3 +361,92 @@ export const HotelWrapper = styled.div`
     color: #ffcc00;
   }
 `;
+
+export const VisitWrapper = styled.div`
+  width: 100%;
+  height: auto;
+  /* background-color: beige; */
+  margin-top: 5vh;
+
+  h1{
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  h2{
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .visit-wrapper{
+    width: 100%;
+    height: auto;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    /* justify-content: space-between; */
+  }
+
+  .visit-wrapper .box{
+    display: flex;
+    border:2px solid #d8d8d8;
+    width: 47%;
+    height: 20vh;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    transition: all .2s ease-in-out;
+  }
+
+  .visit-wrapper .box:hover{
+    box-shadow: 5px 5px 1px #ff7d00;
+    cursor: pointer;
+    transform: scale(1.01);
+  }
+
+  .visit-wrapper .box .left{
+    width: 30%;
+    height: 100%;
+  }
+
+  .visit-wrapper .box .left img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+
+  .visit-wrapper .box .right{
+    width: 70%;
+    height: 100%;
+    padding: 0 5px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .visit-wrapper .box .right .r-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  .visit-wrapper .box .right .r-middle{
+    font-size: 11px;
+    font-weight: 600;
+    height: 60%;
+    width: 100%;
+    line-height: 14px;
+  }
+
+  .visit-wrapper .box .right .r-bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .visit-wrapper .box .right .r-bottom span{
+    font-size: 11px;
+  }
+
+
+`
