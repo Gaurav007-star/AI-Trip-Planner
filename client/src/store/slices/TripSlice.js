@@ -57,6 +57,7 @@ const TripSlice = createSlice({
   reducers: {
     setEmptyTrip(state) {
       state.trip = {};
+      state.allTrip = {};
     },
   },
   extraReducers: (builder) => {

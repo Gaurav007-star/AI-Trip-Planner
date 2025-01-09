@@ -64,12 +64,12 @@ const Trip = () => {
         <HotelRecommendations trip={trip && trip?.trip} />
 
         {/* Ininerary */}
-
+        <h1>Place to visit 🚀</h1>
         {Object.keys(trip).length > 0 &&
           Object.keys(trip?.trip?.itinerary).map((day, index) => {
             console.log("days", day);
 
-            return <Itinerary key={index} plan={trip?.trip?.itinerary[day]} />;
+            return <Itinerary key={index} day={day} plan={trip?.trip?.itinerary[day]} />;
           })}
       </TripWrapper>
     </>

@@ -27,6 +27,7 @@ function Header() {
     localStorage.clear()
     dispatch(setEmptyTrip())
     dispatch(setUser())
+    navigate("/")
     toast.success("Logout success")
   }
   
