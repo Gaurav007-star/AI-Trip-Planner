@@ -14,8 +14,6 @@ const UserTrip = ({ trip }) => {
     navigate(`/trip/${id}`);
   };
 
-  // console.log("PLACE NAME",trip.choice.place);
-  
 
   const getPlacePhoto = async () => {
     const BASE_URL = "https://api.pexels.com/v1/search";

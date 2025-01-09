@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setEmptyTrip } from "@/store/slices/TripSlice";
 import { useEffect, useState } from "react";
 import { setUser, UserRegister } from "@/store/slices/UserSlice";
@@ -23,6 +23,10 @@ function Header() {
 
   const handelNavigate = () => {
     navigate("/user");
+  };
+
+  const gotoCreateTrip = () => {
+    navigate("/create-trip");
   };
 
   const LogoutHandler = () => {
@@ -41,17 +45,26 @@ function Header() {
     },
     onError: (error) => toast.error("Login failed 🥺")
   });
+
   useEffect(() => {}, [user]);
 
   // console.log("USER", Object.keys(user).length > 0);
 
   return (
     <HeaderWrapper>
-      <img src="/logo.svg" alt="logoicon" />
+      <Link to={"/"}>
+        <img src="/logo.svg" alt="logoicon" />
+      </Link>
 
       {user && Object.keys(user).length > 0 ? (
         <div className="avatar w-full flex items-center justify-end">
-          <Button className="" onClick={() => LogoutHandler()}>Logout</Button>
+          <Button className="mr-5 bg-orange-500 font-semibold text-black hover:bg-slate-700 hover:text-white hover:scale-105 transition-transform" onClick={gotoCreateTrip}>
+            Create tip
+          </Button>
+
+          <Button className="" onClick={() => LogoutHandler()}>
+            Logout
+          </Button>
           <div
             onClick={handelNavigate}
             className="ring-primary ring-offset-base-100 w-[50px] h-[50px] rounded-full ring-slate-800 ring-2 cursor-pointer ml-2"
@@ -60,7 +73,13 @@ function Header() {
           </div>
         </div>
       ) : (
-        <Button type="submit" className=" button" onClick={() => setOpenDialog(true)}>Login</Button>
+        <Button
+          type="submit"
+          className=" button"
+          onClick={() => setOpenDialog(true)}
+        >
+          Login
+        </Button>
       )}
 
       {/* dialogue box */}

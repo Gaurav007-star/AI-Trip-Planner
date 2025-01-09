@@ -7,6 +7,7 @@ import Userpage from "./user";
 import Trip from "./trip";
 import { useSelector } from "react-redux";
 import Error from "./error";
+import Footer from "./components/custom/Footer";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -27,6 +28,7 @@ function App() {
 
         <Route path="*" element={<Error />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

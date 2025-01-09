@@ -2,8 +2,23 @@
 import { ShareWrapper } from "@/css-sheets/css-styles";
 import { FaRegShareFromSquare } from "react-icons/fa6";
 
-const Share = ({choice}) => {
-  
+import {
+  WhatsappShareButton,
+  WhatsappIcon,
+  FacebookShareButton,
+  FacebookIcon
+} from "react-share";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+
+const Share = ({ choice }) => {
+
+  const shareUrl = window.location.href
+
   return (
     <ShareWrapper>
       <div className="left">
@@ -31,7 +46,24 @@ const Share = ({choice}) => {
       </div>
 
       <div className="right">
-        <FaRegShareFromSquare color="black" fontSize={"30px"} className="share-icon"/>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <FaRegShareFromSquare
+              color="black"
+              fontSize={"30px"}
+              className="share-icon outline-none"
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="shadow-lg p-2 gap-5">
+            <WhatsappShareButton url={shareUrl}>
+              <WhatsappIcon size={"50px"} borderRadius={"50%"} className="mr-2"/>
+            </WhatsappShareButton>
+
+            <FacebookShareButton url={shareUrl}>
+              <FacebookIcon size={"50px"} borderRadius={"50%"} className=""/>
+            </FacebookShareButton>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </ShareWrapper>
   );

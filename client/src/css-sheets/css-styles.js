@@ -14,11 +14,11 @@ export const HeaderWrapper = styled.h1`
     background-size: cover;
   }
 
-  .button{
+  .button {
     position: absolute;
     top: 50%;
     right: 0;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
 `;
 
@@ -49,6 +49,11 @@ export const HeroWrapper = styled.div`
     font-size: 16px;
     color: #c4c4c4;
     margin: 5vh 0;
+  }
+
+  img {
+    width: 90%;
+    height: 90%;
   }
 
   @media (max-width: 768px) {
@@ -188,7 +193,7 @@ export const UserWrapper = styled.div`
   display: flex;
 
   .left {
-    width: 25%;
+    width: 20%;
     height: 100%;
     /* background-color: aquamarine; */
     display: flex;
@@ -198,7 +203,7 @@ export const UserWrapper = styled.div`
 
   .left .user-picture {
     width: 80%;
-    height: 45vh;
+    height: 40vh;
     border-radius: 20px;
     border: 2px solid black;
     box-shadow: -5px 4px 0 black;
@@ -214,15 +219,33 @@ export const UserWrapper = styled.div`
   }
 
   .right {
-    width: 75%;
+    width: 80%;
     height: 100%;
-    /* background-color: goldenrod; */
+    display: flex;
+    flex-wrap: wrap;
+
+    padding: 10px;
+    /* background-color: royalblue; */
+  }
+
+  .right .rtop {
+    width: 100%;
+    height: 7%;
+  }
+
+  .right .rbottom {
+    width: 100%;
+    height: 93%;
+    overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
     justify-content: start;
-    gap: 15px;
-    overflow-y: scroll;
+    gap: 20px;
     padding: 10px;
+  }
+
+  .right .rtop h1 {
+    font-size: 24px;
   }
 
   .right .trip-box {
@@ -232,12 +255,12 @@ export const UserWrapper = styled.div`
     text-align: center;
     border: 2px solid orange;
     padding: 5px;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
     cursor: pointer;
-    /* flex: 1 1 auto; */
+    margin: 5px;
   }
 
-  .right .trip-box:hover{
+  .right .trip-box:hover {
     transform: scale(1.02);
     border: none;
     box-shadow: 0 0 5px orange;
@@ -249,19 +272,22 @@ export const UserWrapper = styled.div`
     border-radius: 20px;
   }
 
-  .right .trip-box h1{
+  .right .trip-box h1 {
     margin-top: 5px;
   }
 
-  @media (max-width:855px) {
-    .right{
+  @media (max-width: 855px) {
+    .right {
       width: 80%;
     }
+    .right .trip-box {
+      flex: 1 1 auto;
+    }
 
-    .right .trip-box h1{
-    margin-top: 5px;
-    font-size: 12px;
-  }
+    .right .trip-box h1 {
+      margin-top: 5px;
+      font-size: 12px;
+    }
   }
 `;
 

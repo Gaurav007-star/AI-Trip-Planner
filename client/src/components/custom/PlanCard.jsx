@@ -53,7 +53,7 @@ const PlanCard = ({ place, plan }) => {
           <div className="r-middle">
             <p>{place?.placeDetails}</p>
           </div>
-          <div className="r-bottom">
+          <div className="r-bottom text-red-400">
             <span>{plan?.best_time_to_visit}</span>
             <MdPlace style={{ fontSize: "20px", color: "orangered" }} />
           </div>

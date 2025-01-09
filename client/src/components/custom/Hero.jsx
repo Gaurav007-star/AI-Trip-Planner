@@ -19,6 +19,9 @@ function Hero() {
         <Button>Get Started, It's Free</Button>
       </Link>
 
+    <img src="/web.png" alt="site loading..." />
+
+
     </HeroWrapper>
   );
 }

@@ -5,7 +5,6 @@ import { FetchTripThunk } from "@/store/slices/TripSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-
 const Userpage = () => {
   const user = useSelector((state) => state.user.user);
   const trip = useSelector((state) => state.trip.allTrip);
@@ -26,14 +25,18 @@ const Userpage = () => {
         />
         <h1>{user ? `@${user.name}` : ""}</h1>
       </div>
+
       <div className="right">
+        <div className="rtop">
+          <h1>My Trips ✈️</h1>
+        </div>
+        <div className="rbottom">
         {trip && trip.length > 0 ? (
-          trip.map((trip, index) => (
-            <UserTrip trip={trip} key={index}/>
-          ))
+          trip.map((trip, index) => <UserTrip trip={trip} key={index} />)
         ) : (
           <span>Please create trips</span>
         )}
+        </div>
       </div>
     </UserWrapper>
   );
