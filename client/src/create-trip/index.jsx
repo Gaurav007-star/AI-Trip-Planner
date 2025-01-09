@@ -1,7 +1,7 @@
 import { AIPrompt, budgetOptions, travelOptions } from "@/assets/assets";
 import { Input } from "@/components/ui/input";
 import { CreateTripWrapper } from "@/css-sheets/css-styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { toast } from "react-toastify";
 import { useGoogleLogin } from "@react-oauth/google";

@@ -6,11 +6,19 @@ export const HeaderWrapper = styled.h1`
   display: flex;
   justify-content: space-between;
   padding: 2vh 0;
+  position: relative;
 
   img {
     width: 10vw;
     background-position: center;
     background-size: cover;
+  }
+
+  .button{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%,-50%);
   }
 `;
 
@@ -178,6 +186,7 @@ export const UserWrapper = styled.div`
   height: 85vh;
   /* background-color: beige; */
   display: flex;
+
   .left {
     width: 25%;
     height: 100%;
@@ -210,26 +219,49 @@ export const UserWrapper = styled.div`
     /* background-color: goldenrod; */
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 5vw;
+    justify-content: start;
+    gap: 15px;
     overflow-y: scroll;
-    padding: 10px 0;
+    padding: 10px;
   }
 
   .right .trip-box {
-    width: 17vw;
-    height: 40vh;
-    background-color: bisque;
+    width: 15vw;
+    height: 35vh;
     border-radius: 20px;
     text-align: center;
-    /* border: 2px solid black; */
-    box-shadow: 0 0 10px #a8a8a8;
+    border: 2px solid orange;
+    padding: 5px;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    /* flex: 1 1 auto; */
+  }
+
+  .right .trip-box:hover{
+    transform: scale(1.02);
+    border: none;
+    box-shadow: 0 0 5px orange;
   }
 
   .right .trip-box img {
     width: 100%;
     height: 100%;
     border-radius: 20px;
+  }
+
+  .right .trip-box h1{
+    margin-top: 5px;
+  }
+
+  @media (max-width:855px) {
+    .right{
+      width: 80%;
+    }
+
+    .right .trip-box h1{
+    margin-top: 5px;
+    font-size: 12px;
+  }
   }
 `;
 

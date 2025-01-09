@@ -8,7 +8,6 @@ export const TripCreateThunk = createAsyncThunk("create/trip", async (data) => {
       "http://localhost:8000/trip/create",
       data
     );
-    console.log("Create trip data", response.data);
     return response.data;
   } catch (error) {
     toast.error(error.response.data.message || "error find 😶");
@@ -23,7 +22,6 @@ export const FetchTripThunk = createAsyncThunk("fetch/trip", async (email) => {
     );
     return response.data;
   } catch (error) {
-    console.log("ERROR", error.response);
 
     toast.error(error.response.data.message || "error find 😶");
     return null;
@@ -35,11 +33,11 @@ export const GetTripById = createAsyncThunk("fetch-single/trip", async (id) => {
     const response = await axios.get(
       `http://localhost:8000/trip/fetch-one-trip/${id}`
     );
-    console.log("TRIP DATA", response.data);
+    // console.log("TRIP DATA", response.data);
 
     return response.data;
   } catch (error) {
-    console.log("ERROR", error);
+    // console.log("ERROR", error);
 
     toast.error(error.response.data.message || "error find 😶");
     return null;

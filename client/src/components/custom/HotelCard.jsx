@@ -46,7 +46,7 @@ const HotelCard = ({ hotel }) => {
         target="_blank"
       >
         <div className="hotel-card">
-          <img src={photoUrl} alt={`${hotel.name}`} />
+          <img src={photoUrl} alt={`Loading...`} />
           <div className="hotel-name">{hotel?.hotel_name}</div>
           <div className="hotel-location">{hotel?.hotel_address}</div>
           <div className="hotel-price">💰 {hotel?.price}</div>

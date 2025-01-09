@@ -17,7 +17,6 @@ const Trip = () => {
 
   const dispatch = useDispatch();
   const trip = useSelector((state) => state.trip.trip);
-  console.log("TRip", trip?.trip?.trip_details?.location);
 
   useEffect(() => {
     Object.keys(trip).length > 0 && getPlacePhoto();
@@ -54,7 +53,7 @@ const Trip = () => {
       <TripWrapper>
         {/* image section */}
         <div className="image-section">
-          <img src={`${headingImage}`} alt="trip-icon" />
+          <img src={`${headingImage}`} alt="Loading..." />
         </div>
 
         {/* share section */}
@@ -67,9 +66,13 @@ const Trip = () => {
         <h1>Place to visit 🚀</h1>
         {Object.keys(trip).length > 0 &&
           Object.keys(trip?.trip?.itinerary).map((day, index) => {
-            console.log("days", day);
-
-            return <Itinerary key={index} day={day} plan={trip?.trip?.itinerary[day]} />;
+            return (
+              <Itinerary
+                key={index}
+                day={day}
+                plan={trip?.trip?.itinerary[day]}
+              />
+            );
           })}
       </TripWrapper>
     </>

@@ -6,10 +6,10 @@ import Header from "./components/custom/Header";
 import Userpage from "./user";
 import Trip from "./trip";
 import { useSelector } from "react-redux";
+import Error from "./error";
 
 function App() {
   const user = useSelector((state) => state.user.user);
-  console.log(user);
 
   return (
     <BrowserRouter>
@@ -17,8 +17,15 @@ function App() {
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/create-trip" element={<CreateTrip />} />
-        <Route path="/user" element={<Userpage />} />
-        <Route path="/trip/:id" element={<Trip />} />
+        {user && Object.keys(user).length > 0 && (
+          <>
+            {" "}
+            <Route path="/user" element={<Userpage />} />{" "}
+            <Route path="/trip/:id" element={<Trip />} />
+          </>
+        )}
+
+        <Route path="*" element={<Error />} />
       </Routes>
     </BrowserRouter>
   );
