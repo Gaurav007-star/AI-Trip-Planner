@@ -253,7 +253,7 @@ export const UserWrapper = styled.div`
     height: 35vh;
     border-radius: 20px;
     text-align: center;
-    border: 2px solid orange;
+    border: 4px solid orange;
     padding: 5px;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
@@ -263,7 +263,8 @@ export const UserWrapper = styled.div`
   .right .trip-box:hover {
     transform: scale(1.02);
     border: none;
-    box-shadow: 0 0 5px orange;
+    box-shadow: -5px 4px 0 orange;
+    border: none;
   }
 
   .right .trip-box img {
@@ -273,7 +274,7 @@ export const UserWrapper = styled.div`
   }
 
   .right .trip-box h1 {
-    margin-top: 5px;
+    margin-top: 10px;
   }
 
   @media (max-width: 855px) {

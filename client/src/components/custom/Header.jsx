@@ -17,10 +17,10 @@ import { useGoogleLogin } from "@react-oauth/google";
 
 function Header() {
   const [openDialog, setOpenDialog] = useState(false);
-  const user = useSelector((state) => state.user.user);
+  const user = JSON.parse(localStorage.getItem('user'));
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  
   const handelNavigate = () => {
     navigate("/user");
   };
@@ -69,7 +69,7 @@ function Header() {
             onClick={handelNavigate}
             className="ring-primary ring-offset-base-100 w-[50px] h-[50px] rounded-full ring-slate-800 ring-2 cursor-pointer ml-2"
           >
-            <img src={`${user ? user?.picture : "https://placehold.co/400"}`} />
+            <img src={`${user ? user.picture : "https://placehold.co/400"}`} />
           </div>
         </div>
       ) : (

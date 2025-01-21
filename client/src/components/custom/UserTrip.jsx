@@ -52,3 +52,5 @@ const UserTrip = ({ trip }) => {
 };
 
 export default UserTrip;
+
+
