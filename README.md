@@ -21,10 +21,6 @@ AI Trip Planner is an intelligent travel planning web application built using th
 
 Planning a trip can be overwhelming — from choosing destinations to optimizing travel routes. AI Trip Planner eliminates the stress by auto-generating travel plans that are practical, fun, and tailored to your needs.
 
-## 🖼️ Screenshots
-
-*(Add screenshots or a demo GIF here to showcase your app visually)*
-
 ## 🔧 Installation
 
 1. Clone the repo:
