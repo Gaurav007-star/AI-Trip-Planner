@@ -16,7 +16,7 @@ createRoot(document.getElementById("root")).render(
 
         <ToastContainer
           position="top-center"
-          autoClose={2000}
+          autoClose={1000}
           theme="colored"
           transition={Zoom}
         />
