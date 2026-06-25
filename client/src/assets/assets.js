@@ -50,5 +50,43 @@ export const budgetOptions = [
   }
 ];
 
-export const AIPrompt = `Generate Travel plan for Location: {location}, for {days} days for {people} with a {budget} budget, Give me a Hotels options list with Hotel name, Hotel address, Price, Hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, place details must be small in 10 to 20 words, Place Image Url, Geo Coordinates, ticket Pricing, Time to travel each of the location in time format (ex. 20-30 minutes) for {days} days with each day plan with best time in 12 hours format to visit in JSON format" 
-`;
+export const AIPrompt = `Generate a travel plan for Location: {location}, for {days} days for {people} with a {budget} budget.
+
+You MUST respond with ONLY a raw JSON object matching this exact schema — no markdown, no code fences, no extra text:
+
+{
+  "location": "string (city/country name)",
+  "duration_days": number,
+  "budget": "string",
+  "traveler_count": number,
+  "hotel_options": [
+    {
+      "hotel_name": "string",
+      "hotel_address": "string",
+      "price": "string (include currency)",
+      "hotel_image_url": "string",
+      "geo_coordinates": { "latitude": number, "longitude": number },
+      "rating": number,
+      "descriptions": "string (1-2 sentences)"
+    }
+  ],
+  "itinerary": [
+    {
+      "day": number,
+      "plan": [
+        {
+          "time": "string (12-hour format e.g. 09:00 AM)",
+          "placeName": "string",
+          "placeDetails": "string (10-20 words)",
+          "placeImageUrl": "string",
+          "geoCoordinates": { "latitude": number, "longitude": number },
+          "ticketPricing": "string (include currency or Free)",
+          "travelTime": "string (e.g. 20-30 minutes)"
+        }
+      ]
+    }
+  ]
+}
+
+Include exactly {days} days in the itinerary with 2-4 places per day. Generate realistic hotel_options (2-4 hotels) with believable geo_coordinates near the destination.`
+;

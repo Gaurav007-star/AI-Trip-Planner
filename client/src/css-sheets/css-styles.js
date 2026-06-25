@@ -1,4 +1,16 @@
-import styled from "styled-components";
+import styled, { keyframes, css } from "styled-components";
+
+const shimmerAnimation = keyframes`
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+`;
+
+const shimmerStyle = css`
+  background: linear-gradient(90deg, var(--border) 25%, var(--muted) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: ${shimmerAnimation} 1.5s infinite ease-in-out;
+  border-radius: inherit;
+`;
 
 export const HeaderWrapper = styled.h1`
   /* background-color: red; */
@@ -22,57 +34,6 @@ export const HeaderWrapper = styled.h1`
   }
 `;
 
-export const HeroWrapper = styled.div`
-  width: 100%;
-  height: auto;
-  margin-top: 7vh;
-  padding: 0 5vw;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  h1 {
-    font-size: 8vh;
-    text-align: center;
-  }
-
-  h1 span {
-    font-size: 7vh;
-    color: #ff7d00;
-    text-shadow: 0 0 3px #ff9635;
-  }
-
-  h3 {
-    text-align: center;
-    font-size: 16px;
-    color: #c4c4c4;
-    margin: 5vh 0;
-  }
-
-  img {
-    width: 90%;
-    height: 90%;
-  }
-
-  @media (max-width: 768px) {
-    * {
-      transition: all 0.2s linear;
-    }
-    h1 {
-      font-size: 4vh;
-    }
-
-    h1 span {
-      font-size: 3vh;
-    }
-    h3 {
-      font-size: 10px;
-    }
-  }
-`;
-
 export const CreateTripWrapper = styled.div`
   width: 100%;
   height: auto;
@@ -84,7 +45,7 @@ export const CreateTripWrapper = styled.div`
   }
 
   span {
-    color: #c4c4c4;
+    color: var(--muted-foreground);
     margin-top: 2vh;
   }
 
@@ -129,22 +90,22 @@ export const CreateTripWrapper = styled.div`
   }
 
   .detail-section .detail-box .box {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 8px;
     padding: 20px;
     text-align: center;
     font-size: 100%;
     width: 18vw;
     height: 23vh;
-    box-shadow: 0 0 5px #ddd;
+    box-shadow: 0 0 5px var(--border);
     transition: transform 330ms ease-in-out;
     cursor: pointer;
   }
 
   .detail-section .detail-box .box:hover {
-    box-shadow: 4px 4px 1px #dbdbdb;
+    box-shadow: 4px 4px 1px var(--border);
     transform: scale(1.05);
-    border: 2px solid #dbdbdb;
+    border: 2px solid var(--border);
   }
 
   @media (max-width: 800px) {
@@ -171,7 +132,13 @@ export const TripWrapper = styled.div`
     width: 100%;
     height: 60vh;
     border-radius: 30px;
-    /* background-color: beige; */
+    overflow: hidden;
+  }
+
+  .image-section .shimmer {
+    width: 100%;
+    height: 100%;
+    ${shimmerStyle}
   }
 
   h1 {
@@ -183,6 +150,35 @@ export const TripWrapper = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 30px;
+  }
+
+  .empty-itinerary {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .empty-itinerary .empty-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+  }
+
+  .empty-itinerary h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--foreground);
+  }
+
+  .empty-itinerary p {
+    font-size: 14px;
+    color: var(--muted-foreground);
+    max-width: 400px;
+    line-height: 1.5;
   }
 `;
 
@@ -205,8 +201,8 @@ export const UserWrapper = styled.div`
     width: 80%;
     height: 40vh;
     border-radius: 20px;
-    border: 2px solid black;
-    box-shadow: -5px 4px 0 black;
+    border: 2px solid var(--border);
+    box-shadow: -5px 4px 0 var(--border);
   }
 
   .left h1 {
@@ -253,18 +249,45 @@ export const UserWrapper = styled.div`
     height: 35vh;
     border-radius: 20px;
     text-align: center;
-    border: 4px solid orange;
+    border: 4px solid var(--accent);
     padding: 5px;
     transition: all 0.2s ease-in-out;
     cursor: pointer;
     margin: 5px;
+    position: relative;
   }
 
   .right .trip-box:hover {
     transform: scale(1.02);
     border: none;
-    box-shadow: -5px 4px 0 orange;
+    box-shadow: -5px 4px 0 var(--accent);
     border: none;
+  }
+
+  .right .trip-box .delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .right .trip-box:hover .delete-btn {
+    opacity: 1;
+  }
+
+  .right .trip-box .delete-btn:hover {
+    background: color-mix(in srgb, var(--destructive) 80%, transparent);
   }
 
   .right .trip-box img {
@@ -325,14 +348,14 @@ export const ShareWrapper = styled.div`
     margin-right: 10px;
     padding: 0.5rem 1rem;
     border-radius: 20px;
-    background-color: #e2e2e2;
+    background-color: var(--muted);
     font-size: 0.9rem;
-    color: #333;
+    color: var(--foreground);
     font-weight: 500;
 
     svg {
       font-size: 1.2rem;
-      color: #666;
+      color: var(--muted-foreground);
     }
   }
 
@@ -375,9 +398,9 @@ export const HotelWrapper = styled.div`
   }
 
   .hotel-card {
-    background-color: #f9f9f9;
+    background-color: var(--card);
     border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 6px color-mix(in srgb, var(--foreground) 10%, transparent);
     text-align: center;
     width: 20vw;
     height: 55vh;
@@ -387,7 +410,7 @@ export const HotelWrapper = styled.div`
   }
 
   .hotel-card:hover {
-    box-shadow: 0 0 10px #e2e2e2;
+    box-shadow: 0 0 10px var(--border);
     cursor: pointer;
     transform: scale(1.02);
   }
@@ -397,6 +420,14 @@ export const HotelWrapper = styled.div`
     height: 25vh;
     border-radius: 10px;
     margin-bottom: 10px;
+  }
+
+  .hotel-card .shimmer {
+    width: 100%;
+    height: 25vh;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    ${shimmerStyle}
   }
 
   .hotel-name {
@@ -409,20 +440,59 @@ export const HotelWrapper = styled.div`
 
   .hotel-location {
     font-size: 14px;
-    color: #666;
+    color: var(--muted-foreground);
     margin-bottom: 15px;
   }
 
   .hotel-price {
     font-size: 14px;
     font-weight: bold;
-    color: #333;
+    color: var(--foreground);
     margin-bottom: 5px;
   }
 
   .hotel-stars {
     font-size: 14px;
     color: #ffcc00;
+  }
+
+  .hotel-description {
+    font-size: 12px;
+    color: var(--muted-foreground);
+    margin-top: 8px;
+    line-height: 1.4;
+  }
+
+  .empty-hotels {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 20px;
+    text-align: center;
+    background: color-mix(in srgb, var(--muted) 30%, transparent);
+    border-radius: 16px;
+    border: 2px dashed var(--border);
+  }
+
+  .empty-hotels .empty-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+
+  .empty-hotels h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--foreground);
+  }
+
+  .empty-hotels p {
+    font-size: 13px;
+    color: var(--muted-foreground);
+    max-width: 320px;
+    line-height: 1.5;
   }
 
   @media (max-width: 940px) {
@@ -447,7 +517,7 @@ export const HotelWrapper = styled.div`
 
     .hotel-location {
       font-size: 12px;
-      color: #666;
+      color: var(--muted-foreground);
       margin-bottom: 10px;
     }
 
@@ -459,11 +529,14 @@ export const HotelWrapper = styled.div`
       font-size: 10px;
       color: #ffcc00;
     }
+
+    .hotel-description {
+      font-size: 10px;
+    }
   }
 
   @media (max-width: 715px) {
     .hotel-grid {
-      background-color: red;
       gap: 7px;
       width: 70vw;
     }
@@ -488,7 +561,7 @@ export const HotelWrapper = styled.div`
 
     .hotel-location {
       font-size: 9px;
-      color: #666;
+      color: var(--muted-foreground);
       margin-bottom: 10px;
     }
 
@@ -499,6 +572,10 @@ export const HotelWrapper = styled.div`
     .hotel-stars {
       font-size: 10px;
       color: #ffcc00;
+    }
+
+    .hotel-description {
+      font-size: 9px;
     }
   }
 `;
@@ -529,19 +606,19 @@ export const VisitWrapper = styled.div`
 
   .visit-wrapper .box {
     display: flex;
-    border: 2px solid black;
+    border: 2px solid var(--border);
     width: 100%;
     height: 100%;
     padding: 10px;
     font-size: 14px;
     border-radius: 10px;
     transition: all 0.2s ease-in-out;
-    box-shadow: 0 0 2px #212121;
+    box-shadow: 0 0 2px color-mix(in srgb, var(--foreground) 13%, transparent);
     flex: 1 1 auto;
   }
 
   .visit-wrapper .box:hover {
-    box-shadow: 5px 5px 1px #ff7d00;
+    box-shadow: 5px 5px 1px var(--accent);
     cursor: pointer;
     transform: scale(1.01);
   }
@@ -555,7 +632,14 @@ export const VisitWrapper = styled.div`
     width: 100%;
     height: 100%;
     border-radius: 10px;
-    border: 2px solid black;
+    border: 2px solid var(--border);
+  }
+
+  .visit-wrapper .box .left .shimmer {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    ${shimmerStyle}
   }
 
   .visit-wrapper .box .right {
@@ -591,12 +675,35 @@ export const VisitWrapper = styled.div`
     font-size: 11px;
   }
 
+  .empty-day {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--muted) 30%, transparent);
+    border: 2px dashed var(--border);
+    color: var(--muted-foreground);
+    font-size: 14px;
+  }
+
+  .visit-wrapper .box .left .img-placeholder {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--muted) 50%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   @media (max-width: 800px) {
     .visit-wrapper .box .left img {
       width: 100%;
       height: 70%;
       border-radius: 10px;
-      border: 2px solid black;
+      border: 2px solid var(--border);
     }
 
     .visit-wrapper .box .right .r-top {

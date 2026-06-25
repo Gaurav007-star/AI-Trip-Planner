@@ -1,5 +1,4 @@
-import "./App.css";
-import Hero from "./components/custom/Hero";
+import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import CreateTrip from "./create-trip";
 import Header from "./components/custom/Header";
@@ -8,6 +7,7 @@ import Trip from "./trip";
 import { useSelector } from "react-redux";
 import Error from "./error";
 import Footer from "./components/custom/Footer";
+import ScrollToTop from "./components/custom/ScrollToTop";
 
 function App() {
   const user = useSelector((state) => state.user.user);
@@ -16,7 +16,7 @@ function App() {
     <BrowserRouter>
       <Header />
       <Routes>
-        <Route path="/" element={<Hero />} />
+        <Route path="/" element={<Home />} />
         <Route path="/create-trip" element={<CreateTrip />} />
         {user && Object.keys(user).length > 0 && (
           <>
@@ -29,6 +29,7 @@ function App() {
         <Route path="*" element={<Error />} />
       </Routes>
       <Footer/>
+      <ScrollToTop/>
     </BrowserRouter>
   );
 }

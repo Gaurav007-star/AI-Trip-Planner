@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export const UserRegister = createAsyncThunk(
   "user/register",
@@ -41,8 +41,11 @@ const UserSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(UserRegister.fulfilled, (state, action) => {
       if (action.payload.status == 200) {
-        localStorage.setItem("user", JSON.stringify(action.payload.data));
-        state.user = action.payload.data;
+        const data = action.payload.data;
+        const existing = JSON.parse(localStorage.getItem("user"));
+        data.memberSince = existing?.memberSince ?? new Date().toISOString();
+        localStorage.setItem("user", JSON.stringify(data));
+        state.user = data;
       }
     });
   }

@@ -21,7 +21,7 @@ const Auth = () => {
               </h2>
               <p className="text-gray-400 text-sm">
                 Don’t have an account?{" "}
-                <a href="#" className="text-blue-500 hover:underline">
+                <a href="#" className="text-primary hover:underline">
                   Sign up.
                 </a>
               </p>
