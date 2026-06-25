@@ -4,7 +4,7 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
-import TripRoute from "../server/routes/trip.route.js";
+import TripRoute from "../routes/trip.route.js";
 
 const app = express();
 
@@ -40,7 +40,7 @@ app.use(async (_req, res, next) => {
   next();
 });
 
-app.get("/api/health", (_req, res) => {
+app.get("/health", (_req, res) => {
   res.json({
     status: "ok",
     db: cached.conn ? "connected" : "disconnected",
@@ -51,10 +51,6 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
-app.use("/api/trip", TripRoute);
-
-app.all("/api/*", (_req, res) => {
-  res.status(404).json({ message: "API route not found" });
-});
+app.use("/trip", TripRoute);
 
 export default app;
