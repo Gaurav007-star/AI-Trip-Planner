@@ -7,7 +7,7 @@ export const UserRegister = createAsyncThunk(
   async (userInfo) => {
     try {
       const response = await axios.get(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token${userInfo?.access_token}`,
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${userInfo?.access_token}`,
         {
           headers: {
             Authorization: `Bearer ${userInfo?.access_token}`,
