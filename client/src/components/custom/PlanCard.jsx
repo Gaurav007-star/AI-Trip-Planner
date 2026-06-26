@@ -5,27 +5,17 @@ import { useEffect, useState } from "react";
 import { MdPlace, MdConfirmationNumber, MdTimer } from "react-icons/md";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 import styled, { keyframes } from "styled-components";
-
-const shimmer = keyframes`
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-`;
 
 const fadeUp = keyframes`
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 `;
 
-/*
-  Card is FULL HEIGHT of its grid cell (height:100%).
-  Fixed image width (120px) + flex content on the right.
-  Image height = 100% of the card, so it scales with the card.
-*/
 const Card = styled.div`
   display: flex;
   flex-direction: row;
-  /* Fixed height = perfectly consistent image size across all cards */
   height: 148px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -41,10 +31,9 @@ const Card = styled.div`
     border-color: color-mix(in srgb, var(--primary) 30%, transparent);
   }
 
-  /* ── left image strip (wider = more visual, less text) ── */
   .img-strip {
     position: relative;
-    width: 160px;          /* was 120px — now image-dominant */
+    width: 160px;
     flex-shrink: 0;
     background: var(--muted);
     overflow: hidden;
@@ -58,20 +47,12 @@ const Card = styled.div`
 
   &:hover .img-strip img { transform: scale(1.07); }
 
-  .img-strip .shimmer-el {
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, var(--border) 25%, var(--muted) 50%, var(--border) 75%);
-    background-size: 200% 100%;
-    animation: ${shimmer} 1.5s infinite ease-in-out;
-  }
-
   .img-strip .no-img {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
     font-size: 28px; opacity: 0.25;
   }
 
-  /* time badge bottom-center of image */
   .time-tag {
     position: absolute;
     bottom: 7px; left: 50%;
@@ -86,7 +67,6 @@ const Card = styled.div`
     white-space: nowrap;
   }
 
-  /* ── right content (narrower — image is dominant) ── */
   .content {
     flex: 1;
     padding: 10px 12px;
@@ -116,12 +96,11 @@ const Card = styled.div`
     flex: 1;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 2;   /* was 3 — tighter to fit fixed height */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  /* ── footer chips ── */
   .chips {
     display: flex;
     flex-wrap: wrap;
@@ -209,7 +188,7 @@ const PlanCard = ({ place }) => {
         {/* Image strip */}
         <div className="img-strip">
           {!loaded && !photoUrl && <div className="no-img">🏛️</div>}
-          {!loaded && photoUrl && <div className="shimmer-el" />}
+          {!loaded && photoUrl && <Skeleton className="size-full rounded-none absolute inset-0" />}
           {photoUrl && (
             <img src={photoUrl} alt={place?.placeName} style={{ display: loaded ? "block" : "none" }} />
           )}

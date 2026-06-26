@@ -6,29 +6,35 @@ function ScrollToTop() {
   const { pathname, hash } = useLocation();
   const [visible, setVisible] = useState(false);
 
-  /* scroll to top or to hash element on route change */
   useEffect(() => {
+    const lenis = window.__lenis;
+    if (!lenis) return;
+
     if (hash) {
       const id = hash.replace("#", "");
-      /* small delay lets the DOM render after navigation */
       const timer = setTimeout(() => {
         const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (el) lenis.scrollTo(el, { offset: 0 });
       }, 100);
       return () => clearTimeout(timer);
     } else {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      lenis.scrollTo(0, { immediate: true });
     }
   }, [pathname, hash]);
 
-  /* floating button visibility */
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const lenis = window.__lenis;
+    if (!lenis) return;
+
+    const onScroll = () => setVisible(lenis.scroll > 400);
+    lenis.on("scroll", onScroll);
+    return () => lenis.off("scroll", onScroll);
   }, []);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = () => {
+    const lenis = window.__lenis;
+    if (lenis) lenis.scrollTo(0, { duration: 1.2 });
+  };
 
   return (
     <button

@@ -3,6 +3,7 @@
 import HotelRecommendations from "@/components/custom/Hotel";
 import Itinerary from "@/components/custom/Itinerary";
 import Share from "@/components/custom/Share";
+import { Skeleton } from "@/components/ui/skeleton";
 import { GetTripById } from "@/store/slices/TripSlice";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -15,11 +16,6 @@ import styled, { keyframes } from "styled-components";
 const fadeUp = keyframes`
   from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
-`;
-
-const shimmerAnimation = keyframes`
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
 `;
 
 /* ── outer page bg ── */
@@ -67,19 +63,6 @@ const HeroCard = styled.div`
   @media (max-width: 600px) {
     height: 240px;
     border-radius: 16px;
-  }
-
-  .shimmer {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      var(--border) 25%,
-      var(--muted) 50%,
-      var(--border) 75%
-    );
-    background-size: 200% 100%;
-    animation: ${shimmerAnimation} 1.5s infinite ease-in-out;
   }
 
   img {
@@ -194,6 +177,41 @@ const EmptyBox = styled.div`
   p  { font-size: 13px; color: var(--muted-foreground); max-width: 320px; line-height: 1.6; margin: 0; }
 `;
 
+/* ── skeleton loading ── */
+function TripSkeleton() {
+  return (
+    <>
+      <HeroWrap>
+        <div className="relative w-full h-[380px] rounded-[20px] overflow-hidden max-md:h-[240px] max-md:rounded-[16px]">
+          <Skeleton className="size-full rounded-none" />
+        </div>
+      </HeroWrap>
+      <Container>
+        <div className="flex flex-col gap-3 mt-8">
+          <Skeleton className="h-5 w-48" />
+          <Skeleton className="h-4 w-72" />
+        </div>
+        <div className="mt-12">
+          <Skeleton className="h-5 w-36 mb-5" />
+          <div className="grid grid-cols-3 gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
+            <Skeleton className="h-48 rounded-xl" />
+            <Skeleton className="h-48 rounded-xl" />
+            <Skeleton className="h-48 rounded-xl" />
+          </div>
+        </div>
+        <div className="mt-12">
+          <Skeleton className="h-5 w-32 mb-5" />
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-28 rounded-xl" />
+            <Skeleton className="h-28 rounded-xl" />
+            <Skeleton className="h-28 rounded-xl" />
+          </div>
+        </div>
+      </Container>
+    </>
+  );
+}
+
 const Trip = () => {
   const { id } = useParams();
   const [headingImage, setHeadingImage] = useState("");
@@ -247,74 +265,80 @@ const Trip = () => {
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
         <button
           onClick={() => navigate("/user")}
-          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors pt-8 pb-2"
+          className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors pt-8 pb-2 cursor-pointer"
         >
           <ArrowLeft size={14} strokeWidth={2} />
           Back
         </button>
       </div>
 
-      {/* ── Hero Image (contained, rounded) ── */}
-      <HeroWrap>
-        <HeroCard>
-          {!headingLoaded && <div className="shimmer" />}
-          {headingImage && (
-            <img
-              src={headingImage}
-              alt="Trip destination"
-              style={{ display: headingLoaded ? "block" : "none" }}
-            />
-          )}
-          {headingLoaded && (
-            <>
-              <div className="overlay" />
-              <div className="hero-text">
-                <div className="hero-badge">✈️ AI Trip Planner</div>
-                <h1 className="hero-title">{location}</h1>
-              </div>
-            </>
-          )}
-        </HeroCard>
-      </HeroWrap>
+      {!tripLoaded ? (
+        <TripSkeleton />
+      ) : (
+        <>
+          {/* ── Hero Image (contained, rounded) ── */}
+          <HeroWrap>
+            <HeroCard>
+              {!headingLoaded && <Skeleton className="size-full rounded-none" />}
+              {headingImage && (
+                <img
+                  src={headingImage}
+                  alt="Trip destination"
+                  style={{ display: headingLoaded ? "block" : "none" }}
+                />
+              )}
+              {headingLoaded && (
+                <>
+                  <div className="overlay" />
+                  <div className="hero-text">
+                    <div className="hero-badge">✈️ AI Trip Planner</div>
+                    <h1 className="hero-title">{location}</h1>
+                  </div>
+                </>
+              )}
+            </HeroCard>
+          </HeroWrap>
 
-      {/* ── Content ── */}
-      <Container>
+          {/* ── Content ── */}
+          <Container>
 
-        {/* Trip info + share */}
-        <Share choice={trip?.choice} />
+            {/* Trip info + share */}
+            <Share choice={trip?.choice} />
 
-        {/* Hotels */}
-        <SectionLabel>
-          <span className="pill">🏨 Stays</span>
-          <span className="title">Hotel Recommendations</span>
-          <div className="rule" />
-        </SectionLabel>
-        <HotelRecommendations trip={trip?.trip} />
+            {/* Hotels */}
+            <SectionLabel>
+              <span className="pill">🏨 Stays</span>
+              <span className="title">Hotel Recommendations</span>
+              <div className="rule" />
+            </SectionLabel>
+            <HotelRecommendations trip={trip?.trip} />
 
-        {/* Itinerary */}
-        <SectionLabel>
-          <span className="pill">🗺️ Itinerary</span>
-          <span className="title">Places to Visit</span>
-          <div className="rule" />
-        </SectionLabel>
+            {/* Itinerary */}
+            <SectionLabel>
+              <span className="pill">🗺️ Itinerary</span>
+              <span className="title">Places to Visit</span>
+              <div className="rule" />
+            </SectionLabel>
 
-        {tripLoaded && hasItinerary ? (
-          itinerary.map((item, index) => (
-            <Itinerary
-              key={index}
-              day={item.day}
-              plan={item.plan}
-            />
-          ))
-        ) : tripLoaded ? (
-          <EmptyBox>
-            <div className="icon">🗺️</div>
-            <h3>No places to visit yet</h3>
-            <p>We couldn&apos;t generate specific places for this trip. Try creating a new trip with different preferences.</p>
-          </EmptyBox>
-        ) : null}
+            {hasItinerary ? (
+              itinerary.map((item, index) => (
+                <Itinerary
+                  key={index}
+                  day={item.day}
+                  plan={item.plan}
+                />
+              ))
+            ) : (
+              <EmptyBox>
+                <div className="icon">🗺️</div>
+                <h3>No places to visit yet</h3>
+                <p>We couldn&apos;t generate specific places for this trip. Try creating a new trip with different preferences.</p>
+              </EmptyBox>
+            )}
 
-      </Container>
+          </Container>
+        </>
+      )}
     </PageWrapper>
   );
 };

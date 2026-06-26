@@ -1,11 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import UserTrip from "@/components/custom/UserTrip";
 import { FetchTripThunk } from "@/store/slices/TripSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+
+function TripCardSkeleton() {
+  return (
+    <div className="rounded-2xl overflow-hidden border border-border bg-card shadow-sm">
+      <Skeleton className="h-44 w-full rounded-none" />
+      <div className="p-4 flex flex-col gap-2">
+        <Skeleton className="h-5 w-3/4" />
+        <div className="flex gap-2 mt-1">
+          <Skeleton className="h-5 w-16 rounded-full" />
+          <Skeleton className="h-5 w-20 rounded-full" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const Userpage = () => {
   const user = useSelector((state) => state.user.user);
@@ -19,14 +35,15 @@ const Userpage = () => {
     }
   }, [user]);
 
-  const tripCount = trip?.length ?? 0;
+  const loading = !Array.isArray(trip);
+  const tripCount = Array.isArray(trip) ? trip.length : 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-6xl mx-auto px-6 py-10">
         <button
-          onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          onClick={() => navigate("/")}
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           <ArrowLeft size={14} strokeWidth={2} />
           Back
@@ -91,9 +108,11 @@ const Userpage = () => {
             <div>
               <h1 className="text-2xl font-semibold text-foreground">My Trips</h1>
               <p className="text-sm text-muted-foreground mt-0.5">
-                {tripCount > 0
-                  ? `${tripCount} trip${tripCount > 1 ? "s" : ""} planned so far`
-                  : "Your adventures will appear here"}
+                {loading
+                  ? "Loading your trips..."
+                  : tripCount > 0
+                    ? `${tripCount} trip${tripCount > 1 ? "s" : ""} planned so far`
+                    : "Your adventures will appear here"}
               </p>
             </div>
             <span className="inline-flex items-center gap-1.5 bg-primary/10 text-primary text-xs font-semibold px-3 py-1.5 rounded-full border border-primary/20">
@@ -101,8 +120,13 @@ const Userpage = () => {
             </span>
           </div>
 
-          {/* Grid or empty state */}
-          {tripCount > 0 ? (
+          {loading ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+              <TripCardSkeleton />
+              <TripCardSkeleton />
+              <TripCardSkeleton />
+            </div>
+          ) : tripCount > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
               {trip.map((t, i) => (
                 <UserTrip trip={t} key={i} />

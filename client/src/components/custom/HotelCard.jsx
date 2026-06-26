@@ -4,12 +4,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 import styled, { keyframes } from "styled-components";
-
-const shimmer = keyframes`
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-`;
 
 const fadeUp = keyframes`
   from { opacity: 0; transform: translateY(10px); }
@@ -17,7 +13,6 @@ const fadeUp = keyframes`
 `;
 
 const Card = styled.div`
-  /* stretch to grid row height so all cards are equal */
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -35,7 +30,6 @@ const Card = styled.div`
     border-color: color-mix(in srgb, var(--primary) 30%, transparent);
   }
 
-  /* ── image ── */
   .img-box {
     position: relative;
     width: 100%;
@@ -53,20 +47,12 @@ const Card = styled.div`
 
   &:hover .img-box img { transform: scale(1.06); }
 
-  .img-box .shimmer-el {
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, var(--border) 25%, var(--muted) 50%, var(--border) 75%);
-    background-size: 200% 100%;
-    animation: ${shimmer} 1.5s infinite ease-in-out;
-  }
-
   .img-box .no-img {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
     font-size: 36px; opacity: 0.3;
   }
 
-  /* price badge top-right of image */
   .price-badge {
     position: absolute;
     top: 10px; right: 10px;
@@ -221,7 +207,7 @@ const HotelCard = ({ hotel }) => {
         {/* Image */}
         <div className="img-box">
           {!loaded && !photoUrl && <div className="no-img">🏨</div>}
-          {!loaded && photoUrl && <div className="shimmer-el" />}
+          {!loaded && photoUrl && <Skeleton className="size-full rounded-none absolute inset-0" />}
           {photoUrl && <img src={photoUrl} alt={hotel?.hotel_name} style={{ display: loaded ? "block" : "none" }} />}
           {hotel?.price && <span className="price-badge">{hotel.price}</span>}
         </div>

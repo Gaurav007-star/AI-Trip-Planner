@@ -88,7 +88,7 @@ function Header() {
         <div className="py-4 flex items-center justify-between">
           {/* Left Logo */}
           <Link to={"/"} className="flex items-center gap-2 select-none">
-            <img src="/logo_demo.png" alt="logoicon" className="h-10 w-auto object-contain" />
+            <img src="/logo.png" alt="logoicon" className="h-10 w-auto object-contain" />
           </Link>
 
           {/* Desktop nav */}

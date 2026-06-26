@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { DeleteTripThunk } from "@/store/slices/TripSlice";
 import Modal from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Trash2 } from "lucide-react";
 
 const UserTrip = ({ trip }) => {
@@ -62,7 +63,7 @@ const UserTrip = ({ trip }) => {
         {/* Image area */}
         <div className="relative h-44 w-full overflow-hidden bg-muted">
           {loading ? (
-            <div className="w-full h-full animate-pulse bg-gradient-to-r from-muted via-border to-muted bg-[length:200%_100%]" />
+            <Skeleton className="size-full rounded-none" />
           ) : (
             <img
               src={photoUrl}

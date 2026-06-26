@@ -200,8 +200,8 @@ function CreateTrip() {
 
         {/* ── Back button ── */}
         <button
-          onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          onClick={() => navigate("/")}
+          className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
         >
           <ArrowLeft size={14} strokeWidth={2} />
           Back
